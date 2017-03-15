@@ -13,10 +13,10 @@ composer require oxicode/cakephp-Sendgrid
 ## Configuration
 
 In your app.php
-```
+```json
     'EmailTransport' => [
         'default' => [
-            ...
+            #Your settings default
         ],
         'Sendgrid' => [
             'className' => 'Sendgrid\Mailer\Transport\SendgridTransport',
@@ -24,22 +24,9 @@ In your app.php
             'api_key' => '--- YOUR API HERE ---'
         ]
     ],
-
-    /**
-     * Email delivery profiles
-     *
-     * Delivery profiles allow you to predefine various properties about email
-     * messages from your application and give the settings a name. This saves
-     * duplication across your application and makes maintenance and development
-     * easier. Each profile accepts a number of keys. See `Cake\Mailer\Email`
-     * for more information.
-     */
     'Email' => [
         'default' => [
-            'transport' => 'default',
-            'from' => 'you@localhost',
-            //'charset' => 'utf-8',
-            //'headerCharset' => 'utf-8',
+            #Your settings default
         ],
         'Sendgrid' => [
             'transport' => 'Sendgrid',
