@@ -13,12 +13,14 @@ class SendgridTransport extends AbstractTransport
         'api_key' => null,
         'host' => 'api.sendgrid.com',
         'scheme' => 'https',
+        'category' => null,
         'user_agent' => 'CakePHP Sendgrid Plugin'
     ];
 
     protected $_request = [
         'from' => [],
         'content' => [],
+        'categories' => [],
         'personalizations' => [],
     ];
 
@@ -31,6 +33,18 @@ class SendgridTransport extends AbstractTransport
         if ($data->getEmailFormat() === 'both' || $data->getEmailFormat() === 'html') {
             $this->_request['content'][] = ['type' => 'text/html', 'value' => $data->message('html')];
         }
+
+    }
+
+    public function addSubject(Email $data) {
+        $this->_request['personalizations'][0]['subject'] = $data->getSubject();
+    }
+
+    public function addCategories() {
+        if (is_array($this->config('category')))
+            $this->_request['categories'] = $this->config('category');
+        else
+            $this->_request['categories'][] = $this->config('category');
 
     }
 
@@ -75,9 +89,9 @@ class SendgridTransport extends AbstractTransport
                 'User-Agent' => $this->getConfig('user_agent')
             ]
         ]);
-        #pr($email);
 
-        $this->_request['personalizations'][0]['subject'] = $email->getSubject();
+        $this->addSubject($email);
+        $this->addCategories();
 
         $this->addFrom($email->getFrom());
         $this->addRecipients('to', $email->getTo());
@@ -85,13 +99,11 @@ class SendgridTransport extends AbstractTransport
         $this->addRecipients('bcc', $email->getBcc());
         $this->addContents($email);
 
-        pr($this->_request);
         $response = $http->post('/v3/mail/send', json_encode($this->_request), ['type' => 'json']);
-        #if (!$response || $response->code >= 400) {
-        #    throw new InternalErrorException($response->code);
-        #}
-        dd($response->json);
+        if (!$response || $response->code >= 400) {
+            throw new InternalErrorException(implode(" ", array_map(function ($error) { return implode("\n", $error); }, $response->json['errors'])));
+        }
 
-        return $response->code === 202 ? $email->getMessageId : false;
+        return $response->code === 202 ? $email->getMessageId() : false;
     }
 }
