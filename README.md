@@ -13,7 +13,7 @@ composer require oxicode/cakephp-Sendgrid
 ## Configuration
 
 In your app.php
-```json
+```php
     'EmailTransport' => [
         'default' => [
             #Your settings default
