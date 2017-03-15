@@ -1,5 +1,5 @@
 {
-    "name": "oxicode/Sendgrid",
+    "name": "oxicode/cakephp-sendgrid",
     "description": "Sendgrid plugin for CakePHP",
     "type": "cakephp-plugin",
     "require": {
