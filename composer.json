@@ -2,6 +2,13 @@
     "name": "oxicode/cakephp-sendgrid",
     "description": "Sendgrid plugin for CakePHP",
     "type": "cakephp-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Quispe",
+            "email": "christian.quispeh@gmail.com"
+        }
+    ],
     "require": {
         "php": ">=5.6",
         "cakephp/cakephp": ">=3.4",
