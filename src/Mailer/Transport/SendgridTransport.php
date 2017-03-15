@@ -25,11 +25,11 @@ class SendgridTransport extends AbstractTransport
     public function addContents(Email $data) {
 
         if ($data->getEmailFormat() === 'both' || $data->getEmailFormat() === 'text') {
-            $this->_request['content'][] = ['type' => 'text/plain', 'value' => $data->message()];
+            $this->_request['content'][] = ['type' => 'text/plain', 'value' => $data->message('text')];
         }
 
         if ($data->getEmailFormat() === 'both' || $data->getEmailFormat() === 'html') {
-            $this->_request['content'][] = ['type' => 'text/html', 'value' => $data->message()];
+            $this->_request['content'][] = ['type' => 'text/html', 'value' => $data->message('html')];
         }
 
     }
@@ -41,10 +41,14 @@ class SendgridTransport extends AbstractTransport
 
     public function addRecipients($recipient, $address = []) {
         foreach ($address as $key => $value) :
-            $this->_request['personalizations'][0][$recipient][] = [
+            $user = [
                 'email' => $key,
-                'name' => $value
             ];
+
+            if ($user['email'] !== $value)
+                $user['name'] = $value;
+
+            $this->_request['personalizations'][0][$recipient][] = $user;
         endforeach;
 
     }
