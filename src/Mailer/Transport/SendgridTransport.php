@@ -24,6 +24,10 @@ class SendgridTransport extends AbstractTransport
         'personalizations' => [],
     ];
 
+    public function getRequest() {
+        return $this->_request;
+    }
+
     public function addContents(Email $data) {
 
         if ($data->getEmailFormat() === 'both' || $data->getEmailFormat() === 'text') {
