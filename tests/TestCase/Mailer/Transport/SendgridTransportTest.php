@@ -8,7 +8,6 @@ use Sendgrid\Mailer\Transport\SendgridTransport;
 
 class SendgridTransportTest extends TestCase
 {
-
     public $fixtures = false;
 
     public function setUp()
@@ -20,16 +19,19 @@ class SendgridTransportTest extends TestCase
         ];
         $this->invalidConfig = [
             'api_Key' => '',
-            'domain' => ''
+            'domain'  => '',
         ];
     }
-    public function testAddContents() {
+
+    public function testAddContents()
+    {
         $this->markTestIncomplete('Not implemented yet.');
     }
 
-    public function testAddFrom() {
+    public function testAddFrom()
+    {
         $this->SendgridTransport->addFrom([
-            'christian.quispeh@gmail.com' => 'Oxicode'
+            'christian.quispeh@gmail.com' => 'Oxicode',
         ]);
 
         $expected = $this->SendgridTransport->getRequest()['from'];
@@ -37,11 +39,13 @@ class SendgridTransportTest extends TestCase
         $this->assertEquals(['email' => 'christian.quispeh@gmail.com', 'name' => 'Oxicode'], $expected);
     }
 
-    public function testAddCategories() {
+    public function testAddCategories()
+    {
         $this->markTestIncomplete('Not implemented yet.');
     }
 
-    public function testAddSubject() {
+    public function testAddSubject()
+    {
         $email = new Email();
         $email->transport($this->SendgridTransport);
         $email->setSubject('pepe el grillo');
@@ -52,8 +56,8 @@ class SendgridTransportTest extends TestCase
         $this->assertEquals('pepe el grillo', $expected);
     }
 
-    public function testSend() {
+    public function testSend()
+    {
         $this->markTestIncomplete('Not implemented yet.');
     }
-
 }
